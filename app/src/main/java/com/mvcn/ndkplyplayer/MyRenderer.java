@@ -14,6 +14,7 @@ import javax.microedition.khronos.opengles.GL10;
 public class MyRenderer implements GLSurfaceView.Renderer {
     public float mAngleX;
     public float mAngleY;
+    public float scale;
     private Context mContext;
     public MyRenderer(Context pContext) {
         super();
@@ -32,7 +33,7 @@ public class MyRenderer implements GLSurfaceView.Renderer {
     //Called for each redraw of the view.
     @Override
     public void onDrawFrame(GL10 gl) {
-        nativeDrawGraphics(mAngleX,mAngleY);
+        nativeDrawGraphics(mAngleX,mAngleY, scale);
     }
 
     //Called if the geometry of the view changes, for example when the device's
@@ -65,7 +66,7 @@ public class MyRenderer implements GLSurfaceView.Renderer {
      * which is packaged with this application.
      */
     private static native boolean nativeInitGLES20(String vertexShaderStr, String fragmentShaderStr);
-    private static native void nativeDrawGraphics(float angleX, float angleY);
+    private static native void nativeDrawGraphics(float angleX, float angleY, float scale);
     private static native void nativeSurfaceChanged(int width, int height);
 
 

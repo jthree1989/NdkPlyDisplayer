@@ -18,10 +18,10 @@ JNIEXPORT jboolean JNICALL Java_com_mvcn_ndkplyplayer_MyRenderer_nativeInitGLES2
 /*
  * Class:     com_mvcn_ndkplyplayer_MyRenderer
  * Method:    nativeDrawGraphics
- * Signature: (FF)V
+ * Signature: (FFF)V
  */
 JNIEXPORT void JNICALL Java_com_mvcn_ndkplyplayer_MyRenderer_nativeDrawGraphics
-  (JNIEnv *, jobject, jfloat, jfloat);
+  (JNIEnv *, jobject, jfloat, jfloat, jfloat);
 
 /*
  * Class:     com_mvcn_ndkplyplayer_MyRenderer

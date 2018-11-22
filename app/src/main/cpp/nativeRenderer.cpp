@@ -182,8 +182,6 @@ void read_ply_file(const std::string & filepath)
         const size_t numColorsBytes = colors->buffer.size_bytes();
         gColorBuffer = vector<unsigned char>(colors->count * 3);
         std::memcpy(gColorBuffer.data(), colors->buffer.get(), numColorsBytes);
-        //std::vector<unsigned char>::iterator maxColor = std::max_element(std::begin(gColorBuffer), std::end(gColorBuffer));
-        //for(auto& v:gColorBuffer) v /= *maxColor;
 
     }
     catch (const std::exception & e)
@@ -200,14 +198,14 @@ Java_com_mvcn_ndkplyplayer_MyRenderer_nativeInitGLES20(JNIEnv *env, jobject ,
 {
 
     //glDisable(GL_DITHER);					// disable dither to improve performance with reduced quality
-    glClearColor(1.0f, 1.0f, 1.0f, 0.4f);	// set clear value for color buffer as black
+    glClearColor(0.0f, 0.0f, 0.0f, 0.4f);	// set clear value for color buffer as black
     //glEnable(GL_CULL_FACE);					// enabled for better performance
     //glClearDepthf(1.0f);					// set clear value [0, 1] for depth buffer as farthest
     //glEnable(GL_DEPTH_TEST);				// Only render pixels in the front
     //glDepthFunc(GL_LEQUAL);				// Render if depth is less
 
     // Read ply file
-    string fileName("/sdcard/test.ply");
+    string fileName("/sdcard/faces.ply");
     read_ply_file(fileName);
     gVertexCount = vertices->count;
     MANTIS_LOG(LOG_INFO) << "VertexCount: "<< gVertexCount << ",\tVertices number: " << vertices->count << ",\tNormals number: "  << normals->count << ",\tColors number: " <<colors->count <<"\n";
@@ -245,7 +243,7 @@ Java_com_mvcn_ndkplyplayer_MyRenderer_nativeInitGLES20(JNIEnv *env, jobject ,
 
 JNIEXPORT void JNICALL
 Java_com_mvcn_ndkplyplayer_MyRenderer_nativeDrawGraphics(JNIEnv *env, jobject,
-                                                         jfloat angleX, jfloat angleY)
+                                                         jfloat angleX, jfloat angleY, jfloat scale)
 {
     glClear(GL_COLOR_BUFFER_BIT);
     // Rotate matrix
@@ -254,10 +252,10 @@ Java_com_mvcn_ndkplyplayer_MyRenderer_nativeDrawGraphics(JNIEnv *env, jobject,
     rotate_matrix(angleY, -1.0, 0.0, 0.0, aModelView);   // Rotate around x-axis
     multiply_matrix(aRotate, aModelView, aModelView);
     // Scale
-    scale_matrix(1, 1, 1, aScale);
+    scale_matrix(scale, scale, scale, aScale);
     multiply_matrix(aScale, aModelView, aModelView);
     // Translate
-    translate_matrix(0.0f, 1.0f, -3.0f, aTranslate);
+    translate_matrix(0.0f, 0.0f, -3.5f, aTranslate);
     multiply_matrix(aTranslate, aModelView, aModelView);
     // Perspective
     perspective_matrix(45.0, (float)gWidth/(float)gHeight, 0.1, 100.0, aPerspective);
